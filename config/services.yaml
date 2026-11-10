@@ -1,0 +1,52 @@
+# 首頁服務設定（Cloady 試用版，改編自 amd1g /home/opc/homepage/config）
+# 只留還在用的 3 個服務（使用者 2026-11-10 確認）：Immich、Portainer、AdGuard Home。
+# 已移除：qBittorrent、AriaNg、JDownloader 2、Uptime Kuma（都沒在用了）、Glances 小工具。
+# 也拿掉所有 ping（Cloady 連不到 10.0.0.x / 10.2.2.x 內網，留著只會顯示錯誤/離線）。
+# 連結（href）都是公開 duckdns.org 網址，不受影響。原設定檔留著沒動。
+#
+# 小工具（widget）2026-11-10 加入：帳密與 API key 不寫在設定檔裡，改讀環境變數
+# （{{HOMEPAGE_VAR_XXX}}），在 Cloady 後台 Settings → Environment 填：
+#   HOMEPAGE_VAR_ADGUARD_USERNAME / HOMEPAGE_VAR_ADGUARD_PASSWORD（AdGuard 登入帳密）
+#   HOMEPAGE_VAR_IMMICH_KEY（Immich → Account Settings → API Keys，要有 server.statistics 權限）
+#   HOMEPAGE_VAR_PORTAINER_KEY（Portainer → My account → Access tokens）
+#   HOMEPAGE_VAR_PORTAINER_ENV（Portainer 環境 ID，2026-11-10 確認：3 = local/arm12g，
+#     4 = AMD 1G，6 = GCP 1G；舊的 1 已不存在。改成變數是為了以後端點 ID 再變時，
+#     改變數就好，不用重建 app）
+# 小工具是從 Cloady 伺服器去連公開網址，不是從瀏覽器連，所以用公開網址。
+# 填好環境變數後要 Stop 再 Start 才會生效（只按 Restart 吃不到新變數）。
+
+# 群組 1: 媒體與下載
+- 媒體與下載:
+    - Immich:
+        icon: immich.png
+        href: https://pobynb.duckdns.org
+        description: 私人雲端相簿
+        widget:
+          type: immich
+          url: https://pobynb.duckdns.org
+          key: "{{HOMEPAGE_VAR_IMMICH_KEY}}"
+          version: 2
+
+# 群組 2: 系統管理
+- 系統管理:
+    - Portainer:
+        icon: portainer.png
+        href: https://pobdocker.duckdns.org
+        description: Docker 管理
+        widget:
+          type: portainer
+          url: https://pobdocker.duckdns.org
+          env: "{{HOMEPAGE_VAR_PORTAINER_ENV}}"
+          key: "{{HOMEPAGE_VAR_PORTAINER_KEY}}"
+
+# 群組 3: 監控服務
+- 監控服務:
+    - AdGuard Home:
+        icon: adguard-home.png
+        href: https://pobdns.duckdns.org
+        description: 廣告阻擋 DNS
+        widget:
+          type: adguard
+          url: https://pobdns.duckdns.org
+          username: "{{HOMEPAGE_VAR_ADGUARD_USERNAME}}"
+          password: "{{HOMEPAGE_VAR_ADGUARD_PASSWORD}}"

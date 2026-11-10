@@ -1,0 +1,4 @@
+# Cloady 試用版：小工具先清空。
+# 原設定 widgets.yaml 有三組：本機 resources、ARM 主機 glances（10.0.0.41:61208）、
+# GCP glances（10.2.2.13:61208），Cloady 都連不到，留著只會報錯。
+# 想看即時數據的話，Homepage 要跑在能連內網的機器上（例如 amd1g），再把原設定放回去。
